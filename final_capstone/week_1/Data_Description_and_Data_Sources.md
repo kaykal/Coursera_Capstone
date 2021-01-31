@@ -48,11 +48,18 @@ There are other fields like MLS listing number and URL that are not relevant for
 The Foursquare API data is not a ready-made data, rather some functions written in Python along with some data processing in order to get the list of venues that pertain to a specific category and a specific anchor location. The anchor location could be my location (or the location of my potential future new house) and target locations are all the interesting venues that are around the anchor location. For example, one could list out the list of grocery stores or vegan restaurants around an anchor location to check if it would be a preferred location to live. The result could be something like the following, a list of vegan restaurants (Venue, Venue Category) around an anchor location (named "My home"):
 ![Vegan restaurants](./assets/places_of_int.PNG)
 <br>
-The results could very well be presented in a map, thanks to the introduction of Folium library as part of the course. The map below, for example, shows the grocery stores in a particular region:<br>
+The results could very well be presented in a map, thanks to the introduction of [Folium library](https://python-visualization.github.io/folium/) as part of the course. The map below, for example, shows the grocery stores in a particular region:<br>
 
 ![Grocery stores](./assets/grocery_stores.PNG)
 
 <br>
+The CA school dashboard provides a wealth of information that could be analyzed to make several inferences. Besides the quality of schools, one could also infer the poverty in several districts and the demographic diversity in several districts, providing valuable information to policy makers in order to decide and fast track their investment in those districts. For example, from the migrant data (which is a part of the data provided - ethnicity, race, migrants, etc.), one could see the regions with most migrants:
+<br>
+
+![Migrants in CA schools](./assets/migrants_schools.PNG)
+
+<br>
+
 ### Data Acquisition Challenges<a name="data-acq-challenges"></a>
 
 ### Situational Challenges<a name="sit-challenges"></a>
