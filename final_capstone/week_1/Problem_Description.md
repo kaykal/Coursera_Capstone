@@ -3,6 +3,7 @@
 ## Contents
 1. [Background and Motivation](#motivation)
 2. [Objectives and Key Results](#okr)
+  2.1. [Audience](#audience)
 2. [What is available now?](#available)
 3. [What is not available now?](#not-available)
 4. [How to fill the gaps?](#fill-the-gap)
@@ -26,6 +27,9 @@ An application to decide where to move your family and live based not only on th
 * opportunities for your immediate family (spouse, parents)
 * fueling your childrens' ambitions and creating opportunities for them
 
+#### Audience<a name="audience"></a>
+
+This would be an application that could be used by anyone who would like a more generic application that lets them analyze for more kinds of categories rather than just real estate price or touristic importance. It could be a people moving to a new place for work, for starting a new life, with specific interests and needs.
 
 ### What is available now?<a name="available"></a>
 
