@@ -34,6 +34,7 @@ CA provides a school dashboard that has a lot of information that could be used 
 The housing data provided by RedFin is a csv file that has the following features:
 * property_type
 * zipcode
+* city
 * number of bedrooms
 * number of bathrooms
 * square foot area of the property
@@ -43,6 +44,12 @@ The housing data provided by RedFin is a csv file that has the following feature
 * current price at which the property is listed for sale
 
 There are other fields like MLS listing number and URL that are not relevant for our analysis and hence were ignored as a part of the data pre-processing phase.
+
+The Foursquare API data is not a ready-made data, rather some functions written in Python along with some data processing in order to get the list of venues that pertain to a specific category and a specific anchor location. The anchor location could be my location (or the location of my potential future new house) and target locations are all the interesting venues that are around the anchor location. For example, one could list out the list of grocery stores or vegan restaurants around an anchor location to check if it would be a preferred location to live. The result could be something like the following, a list of vegan restaurants (Venue, Venue Category) around an anchor location (named "My home"):
+![Vegan restaurants](./assets/places_of_int.PNG)
+
+The results could very well be presented in a map, thanks to the introduction of Folium library as part of the course. The map below, for example, shows the grocery stores in a particular region:
+![Grocery stores](./assets/grocery_stores.PNG)
 
 ### Data Acquisition Challenges<a name="data-acq-challenges"></a>
 
