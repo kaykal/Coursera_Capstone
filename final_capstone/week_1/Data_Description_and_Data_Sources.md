@@ -6,7 +6,8 @@
     1.2. [Why Foursquare API?](#why-foursquare)<br>
     2.3. [Why CA School Dashboard?](#why-ca-school-dashboard)<br>
 2. [Data Description](#data-description)
-3. [Data Acquisition Challenges](#data-acq-challenges)
+3. [Data Usage](#data-usage)<br>
+4. [Data Acquisition Challenges](#data-acq-challenges)
 
 ### Data Sources<a name="data-sources"></a>
 
@@ -59,6 +60,13 @@ The CA school dashboard provides a wealth of information that could be analyzed 
 ![Migrants in CA schools](./assets/migrants_schools.PNG)
 
 <br>
+
+### Data Usage<a name="data-usage"></a>
+
+The data gathered from the different sources are used in the following ways:
+    * Custom python functions use FourSquare API to gather data about specific categories of venues around an anchor location. Suppose I have a list of cities or specific addresses where I want to buy a house but I would like to live near Tennis Courts as I see that potential in my daugher, I can give this list of addresses (anchor addresses) and a list of target venues (Tennis Courts), it would list out a table of target venues around each anchor venue provided. 
+    * The Redfin data could be used to estimate the current price of a house, given the requirements like how many bedrooms and bathrooms and latitude, longitute (imagine we are providing the geographic coordinates of the anchor locations above) by using the data-set that contains the current prices of properties of different types and specifications in a wider geographic area.
+    * The school dataset was analyzed to further narrow down the interests based on demography, quality, etc. but was evenually not included as part of the project.
 
 ### Data Acquisition Challenges<a name="data-acq-challenges"></a>
 
