@@ -62,7 +62,20 @@ The CA school dashboard provides a wealth of information that could be analyzed 
 
 ### Data Acquisition Challenges<a name="data-acq-challenges"></a>
 
+The main challenge was to look for disparate sources of information and combine them using a reliable common index that is a part of each of the data sources. I decided this common index to be the geographic coordinates (latitude and longitude) as they are more reliable and their reliability can be checked by marking them on a map. Now, given that geographic coordinates is the one that would tie the housing, venues and school data together, one has to find reliable sources of information for each of these subjects. 
+
+The housing data was the most challenging one as there was no single website that allowed to download the data in a ready-made consumable format. While Craigslist, Zillow webpages could be scrapped using BeautifulSoup library, it was very cumbersome as some of the listings were mis-aligned and this eventually leads to more data preprocessing effort. I happened to learn that Redfin provided a consumable format (and that too, in the form of a .csv file) and Redfin being a well-reputed real estate company, I decided on using it as my data source for home proces.
+
+In order to search for interesting venues, I decided to use Foursquare API. However, there are limits (to the number of venues/categories) that one could query using a free account. I ended up writing a Python function to query interesting venues and then more venues around the venue found and populate a dataframe. I still had to do this over multiple days as I ran out of the number of free requests allowed. One could write the results to a .csv file from the dataframe and readily load it for analysis the next time.
+
+CA school data was straight-forward and it also provides a wealth of information. 
+
 ### Situational Challenges<a name="sit-challenges"></a>
 
-The pandemic caused lots of schools to go virtual and being a passionate teacher myself, I can attest that the quality of virtual education may or may not fit the needs of all of the students and hence any reports on students that come out in 2020 might not propertly reflect the actual capabilties of the students. Further due to the movement of population from expensive neighborhoods like San Francisco (city) to the suburbs and from Silicon Valley to other states (due to remote-work becoming the norm in many tech workplaces), there is a huge demographic shift in schools (one of the goals of analyzing school data was also to infer the demography in the region). 
+The pandemic caused lots of schools to go virtual and being a passionate teacher myself, I can attest that the quality of virtual education may or may not fit the needs of all of the students and hence any reports on students that come out in 2020 might not propertly reflect the actual capabilties of the students. Further due to the movement of population from expensive neighborhoods like San Francisco (city) to the suburbs and from Silicon Valley to other states (due to remote-work becoming the norm in many tech workplaces), there is a huge demographic shift in schools (one of the goals of analyzing school data was also to infer the demography in the region). This is one of the primary reasons I did not go ahead with using the results from the inferences made from school data in my project.
+
+Similarly, using historical real estate prices from California is going to lead to inaccuracies (huge inaccuracies) due to the shift caused by the pandemic. A more reliable and current indicator would be the current prices at which real-estate prices are listed. And one could always go to Redfin webpage and download the current listings (and in a .csv format). In a year from now, when prices might change and will be very different from what they are at present, one could always use the Redfin webpage to download the current prices and still use the application I develop.
+
+Again, with Foursquare API, some of the venues, especially small businesses, might have shut down due to the ill effects of the pandemic. But it is more likely that some of those would reopen and due to the large dataset that also includes supermarket chains as well as mom and pop stores, it would have a smaller discrepancy on the analysis.
+
 
