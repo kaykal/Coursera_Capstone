@@ -23,13 +23,26 @@ The main reason for choosing Redfin although there are various other similar web
 
 #### Why Foursquare API?<a name="why-foursquare"></a>
 
-Although I knew about Foursquare and the quality of their data, I had never used their API until the last few weeks when the course introduced us to using Foursquare API. The quality of the data is much more reliable (the location data, rather than reviews) and it is provided in a structure that is very ameanable to parse automatically. The [venue categories](https://developer.foursquare.com/docs/build-with-foursquare/categories/) provided is very comprehensive (although there were certain categories that I could not find or did not have enough entries around my own locality) and it provides all the necessary ingredients for the solution to the problem we are trying to solve. We can also iterate over nearby locations (given an anchor location) which is very handy when you want to find all the restaurants (target venues) near to a given restaurant (anchor venue). I have used this extensively in the project.
+Although I knew about Foursquare and the quality of their data, I had never used their API until the last few weeks when the course introduced us to using Foursquare API. The quality of the data is much more reliable (the location data, rather than reviews) and it is provided in a structure that is very ameanable to parse automatically. The [venue categories](https://developer.foursquare.com/docs/build-with-foursquare/categories/) provided by the API is very comprehensive (although there were certain categories that I could not find or did not have enough entries around my own locality) and it provides all the necessary ingredients for the solution to the problem we are trying to solve. We can also iterate over nearby locations (given an anchor location) which is very handy when you want to find all the restaurants (target venues) near to a given restaurant (anchor venue). I have used this extensively in the project.
 
 #### Why CA School Dashboard?<a name=#why-ca-school-dashboard></a>
 
 CA provides a school dashboard that has a lot of information that could be used to infer demography, quality of schools, qualities in specific subjects (like Math), etc. Further this system apparently put in places recently to replace an archaic system of test scores. I am not sure which system was better, but I used the latest available data. Although the data-set was analyzed I did not want to include the inference in the project as it was a very difficult year to make sense of school data. 
 
 ### Data Description<a name="data-description"></a>
+
+The housing data provided by RedFin is a csv file that has the following features:
+* property_type
+* zipcode
+* number of bedrooms
+* number of bathrooms
+* square foot area of the property
+* year the property was built
+* lot size of the property
+* latitude and longitude
+* current price at which the property is listed for sale
+
+There are other fields like MLS listing number and URL that are not relevant for our analysis and hence were ignored as a part of the data pre-processing phase.
 
 ### Data Acquisition Challenges<a name="data-acq-challenges"></a>
 
