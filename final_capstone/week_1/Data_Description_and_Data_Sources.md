@@ -5,7 +5,7 @@ The problem we are trying to solve involves data gathering from a variety of sou
 
   * Home prices (of "current" listings) from [Redfin](https://www.redfin.com/)
   * Venue data from [Foursquare API](https://developer.foursquare.com/docs/api-reference/venues/categories/)
-  * California School data
+  * California School data from [CA School Dashboard](https://www.cde.ca.gov/ta/ac/cm/#)
 
 ## Data Description
 
