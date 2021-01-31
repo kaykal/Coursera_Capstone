@@ -2,9 +2,11 @@
 
 ## Contents
 1. [Data Sources](#data-sources)
+
  1.1. [Why Redfin over Others?](#why-redfin)
  1.2. [Why Foursquare API?](#why-foursquare) 
  2.3. [Why CA School Dashboard?](#why-ca-school-dashboard)
+ 
 2. [Data Description](#data-description)
 3. [Data Acquisition Challenges](#data-acq-challenges)
 
