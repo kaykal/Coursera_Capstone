@@ -2,8 +2,8 @@
 
 ## Contents
 1. [Background and Motivation](#motivation)
-2. [Objectives and Key Results](#okr)
-  2.1. [Audience](#audience)
+2. [Objectives and Key Results](#okr)<br>
+  2.1. [Audience](#audience)<br>
 2. [What is available now?](#available)
 3. [What is not available now?](#not-available)
 4. [How to fill the gaps?](#fill-the-gap)
