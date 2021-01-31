@@ -19,8 +19,11 @@ The problem we are trying to solve involves data gathering from a variety of sou
   
 #### Why Redfin over Others?<a name="why-redfin"></a>
 
-The main reason for choosing Redfin although there are various other similar websites is the ease of data collection. Websites like Craigslist are difficult to gather data from (even while using python scrapping libraries like BeautifulSoup). Further Craigslist is not as well trusted for expensive purchases. Websites like Zillow and MLS Listings, though very popular and trusted require us to scrap the webpage in order to collect and refine the data. On the other hand, Redfin allows you to search the data and download the data as a .csv file right away from the search page. I did not know about this feature until I started working on this project and it is very useful for anyone looking at such data (and until the feature exists). I am pointing to the feature in the screen-capture below:
+The main reason for choosing Redfin although there are various other similar websites is the ease of data collection. Websites like Craigslist are difficult to gather data from (even while using python scrapping libraries like BeautifulSoup). Further Craigslist is not as well trusted for expensive purchases. Websites like Zillow and MLS Listings, though very popular and trusted require us to scrap the webpage in order to collect and refine the data. On the other hand, Redfin allows you to search the data and download the data as a .csv file right away from the search page. I did not know about this feature until I started working on this project and it is very useful for anyone looking at such data (and until the feature exists). I am pointing to the feature in the screen-capture below: <br>
+
 ![Download Redfin data](./assets/redfin_data_csv_download.PNG)
+
+<br>
 
 #### Why Foursquare API?<a name="why-foursquare"></a>
 
@@ -50,16 +53,16 @@ The Foursquare API data is not a ready-made data, rather some functions written 
 
 ![Supermarkets](./assets/places_of_int.PNG)
 <br>
+
 The results could very well be presented in a map, thanks to the introduction of [Folium library](https://python-visualization.github.io/folium/) as part of the course. The map below, for example, shows the grocery stores in a particular region:<br>
 
 ![Grocery stores](./assets/grocery_stores.PNG)
-
 <br>
+
 The CA school dashboard provides a wealth of information that could be analyzed to make several inferences. Besides the quality of schools, one could also infer the poverty in several districts and the demographic diversity in several districts, providing valuable information to policy makers in order to decide and fast track their investment in those districts. For example, from the migrant data (which is a part of the data provided - ethnicity, race, migrants, etc.), one could see the regions with most migrants:
 <br>
 
 ![Migrants in CA schools](./assets/migrants_schools.PNG)
-
 <br>
 
 ### Data Usage<a name="data-usage"></a>
