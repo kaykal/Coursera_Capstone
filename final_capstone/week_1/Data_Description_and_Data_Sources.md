@@ -11,6 +11,7 @@ The problem we are trying to solve involves data gathering from a variety of sou
 
 ### Data Description
 
+### Data Acquisition Challenges
 
 ### Situational Challenges
 
