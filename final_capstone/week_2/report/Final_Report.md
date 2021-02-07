@@ -275,3 +275,7 @@ map = show_places_on_map(my_new_addr, my_work_places)
 map
 ```
 
+The result might look something like this:
+
+![My Work Places](../../week_1/assets/work_places_map.PNG)
+<br>
