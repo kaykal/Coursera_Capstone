@@ -169,3 +169,66 @@ def get_cool_places(neighborhoods,
     print('Finished collecting all cool places. Check out the dataframe')
     return(interesting_venues)
   ```
+We can call the above function as:
+```python
+cool_places = get_cool_places(my_addr_df['Address'], 
+                              my_addr_df['Latitude'], 
+                              my_addr_df['Longitude'], 
+                              radius=60000, 
+                              venue_num=300)
+```
+where `my_addr_df` is the output of our geographical data identifying function `get_addr_df()` defined previously.
+
+Now comes the interesting part: we can define our own set of categories of interest, as a python list of strings and filter the large set of venues output by the above function. For example, one family member might look for grocery store to find part-time job, another might look for a swimming pool or a park, another would look for some other recreation, etc.
+
+We again write a simple function `get_interesting_places()` that accepts a dataframe and a list of categories and returns a dataframe containing details of venues that fall in the list of categories provided.
+
+```python
+def get_interesting_places(places_df, my_categories):
+    pat = ''
+    n = len(my_categories)
+    for i in range(n-1):
+        pat = pat + my_categories[i] + '|'
+    pat = pat + my_categories[n-1]
+    return places_df[places_df['Venue_Category'].str.contains(pat, case=False, regex=True)]
+```
+
+For example, I might be looking for work in some market or a restaurant, and so define my categories as:
+```python
+my_work_categories = ['Restaurant', 'market']
+```
+
+We can call our function as follows:
+
+```python
+my_work_places = get_interesting_places(cool_places, my_work_categories)
+```
+
+where `cool_places` is the dataframe returned by the function `get_cool_places()` defined previously.
+
+Another member of a family might have a different set of interests:
+
+```python
+my_leisure_categories = ['gym', 'pool', 'trail']
+my_leisure_places = get_interesting_places(cool_places, my_leisure_categories)
+```
+
+Suppose I have short-listed an address to live in but I forgot to check if there are Vegan restaurants around, as I am a new Vegan (new year resolution, you see). We can write a small generic function to accomplish this:
+
+```python
+def get_interesting_places_around_addr(addr, places_df, my_categories):
+    pat = ''
+    n = len(my_categories)
+    for i in range(n-1):
+        pat = pat + my_categories[i] + '|'
+    pat = pat + my_categories[n-1]
+    return places_df[(places_df['Anchor_Address']==addr) & places_df['Venue_Category'].str.contains(pat, case=False, regex=True)]
+```
+
+and use it in the following manner:
+
+```python
+my_new_addr = my_addr_lst[6]
+my_restrictions = ['Vegan', 'Vegetarian']
+my_food_places = get_interesting_places_around_addr(my_new_addr, cool_places, my_restrictions)
+```
