@@ -74,7 +74,7 @@ The problem we are trying to solve involves data gathering from a variety of sou
 
 The main reason for choosing Redfin although there are various other similar websites is the ease of data collection. Websites like Craigslist are difficult to gather data from (even while using python scrapping libraries like BeautifulSoup). Further Craigslist is not as well trusted for expensive purchases. Websites like Zillow and MLS Listings, though very popular and trusted require us to scrap the webpage in order to collect and refine the data. On the other hand, Redfin allows you to search the data and download the data as a .csv file right away from the search page. I did not know about this feature until I started working on this project and it is very useful for anyone looking at such data (and until the feature exists). I am pointing to the feature in the screen-capture below: <br>
 
-![Download Redfin data](./assets/redfin_data_csv_download.PNG)
+![Download Redfin data](../../week_1/assets/redfin_data_csv_download.PNG)
 
 <br>
 
