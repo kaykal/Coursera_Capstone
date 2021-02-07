@@ -228,7 +228,7 @@ def get_interesting_places_around_addr(addr, places_df, my_categories):
 and use it in the following manner:
 
 ```python
-my_new_addr = my_addr_lst[6]
+my_new_addr = '3159 Kenland Dr, San Jose, CA 95111'
 my_restrictions = ['Vegan', 'Vegetarian']
 my_food_places = get_interesting_places_around_addr(my_new_addr, cool_places, my_restrictions)
 ```
