@@ -232,3 +232,46 @@ my_new_addr = my_addr_lst[6]
 my_restrictions = ['Vegan', 'Vegetarian']
 my_food_places = get_interesting_places_around_addr(my_new_addr, cool_places, my_restrictions)
 ```
+
+Finally, to make it visually appealing we can display it on a map. We can use the awesome Folium library in order to achieve this. As always, this can be wrapped inside a small and simple python function:
+
+```python
+def show_places_on_map(addr, df):
+    geolocator = Nominatim(user_agent='map_explorer')
+    location = geolocator.geocode(addr)
+    addr_lat = location.latitude
+    addr_lng = location.longitude
+    smap = folium.Map(location=[addr_lat, addr_lng], zoom_start=10)
+    
+    folium.CircleMarker(
+    [addr_lat, addr_lng],
+    radius=3,
+    color='red',
+    popup='My Home',
+    fill = True,
+    fill_color = 'red',
+    fill_opacity = 0.6
+    ).add_to(smap)
+    for lat, lng, v, label in zip(df.Venue_Latitude, 
+                           df.Venue_Longitude,
+                           df.Venue,
+                           df.Venue_Category):
+        folium.CircleMarker(
+                    [lat, lng],
+                    radius=5,
+                    color='yellow',
+                    popup=v,
+                    fill = True,
+                    fill_color='blue',
+                    fill_opacity=0.6
+                ).add_to(smap)
+    return smap
+```
+
+which can be called as follows:
+
+```python
+map = show_places_on_map(my_new_addr, my_work_places)
+map
+```
+
