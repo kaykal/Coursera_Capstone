@@ -111,3 +111,61 @@ def get_addr_df(addr_lst):
     return df
 ```
 
+We then use the Foursquare API in order to find the intersting locations around each of the geographical coordinates obtained as output from the function above. We shall call this function `get_cool_places()` which takes as inputs:
+* a set of neighbourhoods
+* geographical coordinates
+* radius around which to search
+* number of venues
+
+Again, we will return a Pandas dataframe that not only contains the details of interesting venues, it also contains the anchor location details around which interseting venues are located.
+
+```python
+def get_cool_places(neighborhoods, 
+                    latitudes, longitudes,
+                    radius=200, venue_num=300):
+    # placeholder for collecting interesting venues
+    venues_list=[]
+    
+    # loop around the anchored locations (neighbourhood, lat, lng)
+    for name, lat, lng in zip(neighborhoods, latitudes, longitudes):
+        # count venue_id from 0 .. venue_num
+        # 50 at a time
+        venue_id = 0
+        while (venue_id < venue_num + 50):
+            # construct request url
+            request_url = 'https://api.foursquare.com/v2/venues/explore?&client_id={}&client_secret={}&v={}&ll={},{}&radius={}&offset={}&limit={}'.format(
+            CLIENT_ID, 
+            CLIENT_SECRET, 
+            VERSION, 
+            lat, 
+            lng, 
+            radius,
+            venue_id,
+            LIMIT)
+        # send the request
+            results = requests.get(request_url).json()['response']['groups'][0]['items']
+        # filter the results to capture fields of interest
+            for v in results:
+                venues_list.append([(
+                        name, 
+                        lat, 
+                        lng, 
+                        v['venue']['name'], 
+                        v['venue']['location']['lat'], 
+                        v['venue']['location']['lng'],
+                        v['venue']['location']['formattedAddress'][0],
+                        v['venue']['categories'][0]['name'])])
+            venue_id = venue_id + 50
+    venues_list = list(venues_list)
+    interesting_venues = pd.DataFrame([item for venue_list in venues_list for item in venue_list])
+    interesting_venues.columns = ['Anchor_Address', 
+                      'Anchor_Latitude', 
+                      'Anchor_Longitude', 
+                      'Venue', 
+                      'Venue_Latitude', 
+                      'Venue_Longitude',
+                      'Venue_Address',
+                      'Venue_Category']
+    print('Finished collecting all cool places. Check out the dataframe')
+    return(interesting_venues)
+  ```
