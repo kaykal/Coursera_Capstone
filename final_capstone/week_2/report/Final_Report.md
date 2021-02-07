@@ -483,3 +483,11 @@ print(rand_predictions)
 ```
 
 and we obtain: ```[1460456.41893491]```
+
+#### 4.4. Learnings<a name="learnings"></a><br>
+
+There are several learnings from this exercise. The first is that one could only obtain a specific number of venues from Foursquare API using the free account, even with our function that iteratively finds more venues. I had to wait for a day to run the function after having executed it a few times. Another intersting finding from house prices is that some locations can be very closeby (even in terms of geographical coordinates - latitudes and longitudes) but the prices can vary a lot due to many reasons. For example, Palo Alto and East Palo Alto, some parts of San Jose and some parts of Santa Clara. It turned out home price also depends on the school district, especially in the bay area, and the downloaded dataset does not have School district information. Although Redfin has school district information per listing when one looks into the details. 
+
+### 5. Conclusions and Possible Extensions<a name="conclusions"></a>
+
+One interesting extension would be to obtain school district information and incorporate it into housing price prediction. However, I believe even that would not provide us with the best predictions. The pandemic has shifted and shuffled several things and one of them is mass migration from cities - especially from expensive cities in regions such as the San Francisco Bay area. One would have to identify the many "still unknown" factors before being able to create a model to reasonably predict the home prices. One could also look for data on diversity of population to figure out the regions which are most diverse to live in. As one of those who has thrived and enjoyed growing up in a country with a rich diversity, that would be one thing which would be very interesting.
