@@ -279,3 +279,7 @@ The result might look something like this:
 
 ![My Work Places](../../week_1/assets/work_places_map.PNG)
 <br>
+
+#### 4.3. Part-2 Using Machine Learning Techniques to estimate house prices in interesting locations<a name="house-pr-estimation"></a>
+
+In this exercise, we would use Redfin dataset to estimate current house prices around interesting locations. Redfin website allows one to download the current listings as a csv file ('fin_df.csv'). The data for this exercise was downloaded in that manner. Let us start by importing all the necessary modules.
