@@ -49,3 +49,35 @@ At the moment, when you want to move your family, say to a particular city or co
 #### 3.2. What is not available now?<a name="not-available"></a>
 
 But all of these websites, though they are geared towards catering to the needs of customers main interests (school quality for their kids, price, etc.) they hardly cater to the needs of the individuals. Of course, they might advertise the house being closer to "Silicon Valley tech companies" or "Apple's Spaceship" or walkable from "Marina Green", but if you are a family trying to work several jobs to make ends meet, it doesn't provide you how many restaurants or grocery stores are nearby where family members could work part-time during the evenings to provide for one's family. Neither does it provide information on the kinds of activities (like a swim school producing Olympians, etc.) that one would want in order to nurture their potential. This leads to the families trying to gather this information through word-of-mouth or by trying to assemble information gathered from several disparate sources of information which is both time-consuming and error prone.
+
+#### 3.3. How to fill the gaps?<a name="fill-the-gap"></a>
+
+There are disparate sources of information available through various websites. In order to stitch these together, I will use the knowledge learnt during the past few weeks and come up with an application that, even if not perfect, would cover much of the ground and would serve as a platform to build more things on. 
+
+### 4. This Work<a name="this-work"></a>
+
+In this work, we try to bridge some of the gaps mentioned above. We use two main sources of data which provide disparate pieces of information and use the data science skills acquired during the course to stitch the pieces into a single useful application. There are two main parts to this exercise:
+
+1. Part-1: In this effort, we use Foursquare API to identify interesting locations around a given set of possible addresses. As mentioned above looking for interesting locations may mean different things to different people. While the currently available applications cater to the mostly widely sought after interests like restaurants and night life, it doesn't cater to the more important needs of finding a second part-time job in a grocery store or mexican restaurant or a special needs school or a swimming pool to train for Olympics, which may all be important for someone making a move to a new city.
+
+2. Part-2: Having identified interesting locations from Part-1 above, one would want to estimate the housing prices in the different interesting locations. The COVID pandemic has caused a huge migration of people from cities to suburbs and less expensive cities causing a major shift in real estate prices. So, learning from historic prices is going to give us a wrong estimate. However, Redfin allows us to download current listings (houses listed for sale) as a csv file. This would provide the most recent prices and could be used to estimate the current amount one would have to spend.
+
+#### 4.1. Data Sources<a name="data-sources"></a>
+
+The problem we are trying to solve involves data gathering from a variety of sources. The main challenge and handicap of all of the current websites is that not all the information is present in one dashboard or platform for the family head of our fictitious family to filter and narrow his search. We will primarily use two main sources of data and mention a third one (which is not being used in this project, but was analyzed and the analysis would be presented in the final presentation). The main sources of data we would be using in this project includes:
+
+  * Home prices (of "current" listings) from [Redfin](https://www.redfin.com/)
+  * Venue data from [Foursquare API](https://developer.foursquare.com/docs/api-reference/venues/categories/)
+  * California School data from [CA School Dashboard](https://www.cde.ca.gov/ta/ac/cm/#)
+  
+##### Why Redfin over Others?<a name="why-redfin"></a>
+
+The main reason for choosing Redfin although there are various other similar websites is the ease of data collection. Websites like Craigslist are difficult to gather data from (even while using python scrapping libraries like BeautifulSoup). Further Craigslist is not as well trusted for expensive purchases. Websites like Zillow and MLS Listings, though very popular and trusted require us to scrap the webpage in order to collect and refine the data. On the other hand, Redfin allows you to search the data and download the data as a .csv file right away from the search page. I did not know about this feature until I started working on this project and it is very useful for anyone looking at such data (and until the feature exists). I am pointing to the feature in the screen-capture below: <br>
+
+![Download Redfin data](./assets/redfin_data_csv_download.PNG)
+
+<br>
+
+##### Why Foursquare API?<a name="why-foursquare"></a>
+
+Although I knew about Foursquare and the quality of their data, I had never used their API until the last few weeks when the course introduced us to using Foursquare API. The quality of the data is much more reliable (the location data, rather than reviews) and it is provided in a structure that is very ameanable to parse automatically. The [venue categories](https://developer.foursquare.com/docs/build-with-foursquare/categories/) provided by the API is very comprehensive (although there were certain categories that I could not find or did not have enough entries around my own locality) and it provides all the necessary ingredients for the solution to the problem we are trying to solve. We can also iterate over nearby locations (given an anchor location) which is very handy when you want to find all the restaurants (target venues) near to a given restaurant (anchor venue). I have used this extensively in the project.
