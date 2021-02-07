@@ -81,3 +81,15 @@ The main reason for choosing Redfin although there are various other similar web
 ##### Why Foursquare API?<a name="why-foursquare"></a>
 
 Although I knew about Foursquare and the quality of their data, I had never used their API until the last few weeks when the course introduced us to using Foursquare API. The quality of the data is much more reliable (the location data, rather than reviews) and it is provided in a structure that is very ameanable to parse automatically. The [venue categories](https://developer.foursquare.com/docs/build-with-foursquare/categories/) provided by the API is very comprehensive (although there were certain categories that I could not find or did not have enough entries around my own locality) and it provides all the necessary ingredients for the solution to the problem we are trying to solve. We can also iterate over nearby locations (given an anchor location) which is very handy when you want to find all the restaurants (target venues) near to a given restaurant (anchor venue). I have used this extensively in the project.
+
+#### 4.2. Part-1 Using Foursquare API to identify interesting locations based on custom criteria<a name="4sq-api"></a>
+
+The Foursquare API data is not a ready-made data, rather some functions written in Python along with some data processing in order to get the list of venues that pertain to a specific category and a specific anchor location. The anchor location could be my location (or the location of my potential future new house) and target locations are all the interesting venues that are around the anchor location. For example, one could list out the list of grocery stores or vegan restaurants around an anchor location to check if it would be a preferred location to live. The result could be something like the following, a list of Supermarkets (Venue, Venue Category) around an anchor location: <br>
+
+![Supermarkets](../../week_1/assets/places_of_int.PNG)
+<br>
+
+The results could very well be presented in a map, thanks to the introduction of [Folium library](https://python-visualization.github.io/folium/) as part of the course. The map below, for example, shows the grocery stores in a particular region:<br>
+
+![Grocery stores](../../week_1/assets/grocery_stores.PNG)
+<br>
