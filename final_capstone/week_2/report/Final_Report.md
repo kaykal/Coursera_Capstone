@@ -102,15 +102,12 @@ We first write a simple function `get_addr_df()` to get the geographical coordin
 
 ```python
 def get_addr_df(addr_lst):
-    addr_dict = { i : () for i in range(len(addr_lst))}
-    geolocator = Nominatim(user_agent='ba_explorer')
+    lst = []
+    geolocator = Nominatim(user_agent='my_explorer')
     for i in addr_lst:
         location = geolocator.geocode(i)
-        addr_dict = { i : [i, location.latitude, location.longitude] }
-        #addr_dict['Address']=i 
-        #addr_dict['Latitude']=location.latitude
-        #addr_dict['Longitude']=location.longitude
-    addr_df = pd.DataFrame(data=addr_dict, columns=['Addr', 'lat', 'lng'],index=[0])
-    return addr_df
+        lst.append((i, location.latitude, location.longitude))
+    df = pd.DataFrame(data=lst, columns=['Address', 'Latitude', 'Longitude'])
+    return df
 ```
 
