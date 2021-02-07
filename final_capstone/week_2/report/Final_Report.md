@@ -93,3 +93,24 @@ The results could very well be presented in a map, thanks to the introduction of
 
 ![Grocery stores](../../week_1/assets/grocery_stores.PNG)
 <br>
+
+##### 4.2.a. Technical Details<a name="part1-tech"></a>
+
+In order to achieve collecting interesting locations from Foursquare API, we follow the usual process of forming a request url using our Foursquare account credentials, search criteria, etc. We can then parse the response from Foursquare and extract the different components. However we would like to automate this process and collect as many interesting locations as possible around a given anchor location progressively. We capture this in the form of a python function. We might have a list of anchor addresses/locations and we have to find the geographical coordinates of the anchor addresses as well in order to use Foursquare API to extract the interesting target locations around these anchor geographical coordinates. 
+
+We first write a simple function `get_addr_df()` to get the geographical coordinates of anchor locations, given a string list of anchor locations as input. We also format the output in the form of a Pandas dataframe.
+
+```python
+def get_addr_df(addr_lst):
+    addr_dict = { i : () for i in range(len(addr_lst))}
+    geolocator = Nominatim(user_agent='ba_explorer')
+    for i in addr_lst:
+        location = geolocator.geocode(i)
+        addr_dict = { i : [i, location.latitude, location.longitude] }
+        #addr_dict['Address']=i 
+        #addr_dict['Latitude']=location.latitude
+        #addr_dict['Longitude']=location.longitude
+    addr_df = pd.DataFrame(data=addr_dict, columns=['Addr', 'lat', 'lng'],index=[0])
+    return addr_df
+```
+
