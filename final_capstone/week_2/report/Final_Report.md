@@ -286,3 +286,200 @@ In this exercise, we would use Redfin dataset to estimate current house prices a
 
 The Redfin data set was downloaded as a csv file, in fact as several csv files (one per region of search in Redfin webpage), merged into a single dataframe, cleaned and saved as one monolithic csv file ready for analysis. The cleaning involved removing entries that are NaN, removing listings that had '0.0' for number of bedrooms, stripping hyphenated zipcodes, etc. There was more processing done in order to do linear regression on the dataset. These were achieved using the scikit-learn library as detailed in the next section.
 
+##### 4.3.a. Technical Details<a name="part2-tech"></a>
+
+We read the saved data into a data-frame and capture only interesting features (in particular we leave out the house listing number, city, URL for the listing, etc.). We also keep only columns of interst (remove irrelevant columns like listing number, etc.):
+```python
+df = pd.read_csv('fin_df.csv')
+columns = ['property_type', 'zipcode', 'beds', 'baths',
+          'sq_ft', 'year_built', 'lot_size','latitude', 'longitude', 'price']
+housing = df[columns]
+```
+
+Since we have missing values, we use scikit-learn's SimpleImputer to impute the missing values. We chose the "most_frequent" strategy, rather than 'mean'. We shall use scikit-learn's `SimpleImputer` for this purpose:
+
+```python
+imp = SimpleImputer(missing_values=np.nan, strategy='most_frequent')
+imp = imp.fit(housing.iloc[:,1:7])
+housing.iloc[:,1:7] = imp.transform(housing.iloc[:, 1:7])
+```
+We also write a couple of utility functions to split our dataset into training and test sets:
+
+```python
+# use the id value, hash it and use this for splitting
+# the dataset into training and test sets, so that the 
+# results are reproducible
+def test_set_check(identifier, test_ratio, hash):
+    return hash(np.int64(identifier)).digest()[-1] < 256 * test_ratio
+
+# utility function to split the dataset by id
+def split_train_test_by_id(data, test_ratio, id_column, hash=hashlib.md5):
+    ids = data[id_column]
+    in_test_set = ids.apply(lambda id_: test_set_check(id_, test_ratio, hash))
+    return data.loc[~in_test_set], data.loc[in_test_set]
+```
+
+We can how split the dataset into training and test sets as follows:
+
+```python
+train_set, test_set = split_train_test_by_id(housing, 0.2, 'index')
+```
+We split the numerical and categorical data. We do this inorder to encode the categorical data to make it amenable for our linear regression purposes.
+
+```python
+# numerical data
+train_num = train_set.drop(['property_type'], axis=1)
+test_num = test_set.drop(['property_type'], axis=1)
+
+# categorical data
+train_cat_1 = train_set['property_type']
+train_cat1_enc, train_cat1 = train_cat_1.factorize()
+
+test_cat_1 = test_set['property_type']
+test_cat1_enc, test_cat1 = test_cat_1.factorize()
+```
+
+We then encode the categorical variables using scikit-learn's `Onehot encoding`
+
+```python
+enc = OneHotEncoder()
+train_cat1_1hot = enc.fit_transform(train_cat1_enc.reshape(-1, 1))
+test_cat1_1hot = enc.fit_transform(test_cat1_enc.reshape(-1, 1))
+```
+
+We build a pipeline to do the above in a sequence. In order to achieve that we also define utility methods to select categorical and numerical data
+
+```python
+# utility class/methods to select numerical and categorical
+# data (by passing numerical and categorical columns as attributes)
+class DataFrameSelector(BaseEstimator, TransformerMixin):
+    def __init__(self, attribute_names):
+        self.attribute_names = attribute_names
+    def fit(self, X, y=None):
+        return self
+    def transform(self, X):
+        return X[self.attribute_names].values
+```
+
+```python
+# pipeline for numerical data
+num_pipeline = Pipeline([
+    ('selector', DataFrameSelector(num_attribs)),
+    ('std_scaler', StandardScaler()),
+])
+
+# pipeline for categorical data
+cat_pipeline = Pipeline([
+    ('selector', DataFrameSelector(cat_attribs)),
+    ('cat_encoder', OneHotEncoder(sparse=False)),
+])
+
+# merged pipeline
+full_pipeline = FeatureUnion(transformer_list=[
+    ('num_pipeline', num_pipeline),
+    ('cat_pipeline', cat_pipeline),
+])
+```
+We then prepare the training and test data, passing it through the pipeline:
+
+```python
+training_prepared = full_pipeline.fit_transform(train_set)
+test_prepared = full_pipeline.fit_transform(test_set)
+
+training_labels = train_set['price'].copy()
+test_labels = test_set['price'].copy()
+```
+
+We then fit a Linear Regression model to this dataset (specifically training data):
+
+```python
+lr = LinearRegression()
+lr.fit(training_prepared, training_labels)
+```
+
+We can see what this model `lr` predicts on a subset of our (test) dataset:
+
+```python
+some_data = test_set.iloc[27:33]
+some_data_prepared = full_pipeline.transform(some_data)
+print('Predictions: ', lr.predict(some_data_prepared))
+```
+
+and we obtain:
+```
+Predictions:  [ 903711.84929414 2034180.29346711  748306.0447256   257709.34542827
+  935764.2964864   228667.88569953]
+```
+
+What about the actual labels? How good/bad are our predictions? We can pull up the actual prices and check:
+
+```python
+some_labels = test_labels.iloc[27:33]
+print('actual labels: ', list(some_labels))
+```
+
+and we obtain:
+```
+actual labels:  [925000, 2088888, 765000, 259900, 958000, 230000]
+```
+
+Our predictions always seem to be larger than the actual prices of homes. We can also compute the root mean squared error of our predictions over the entire test dataset.
+
+```python
+test_predictions = lr.predict(test_prepared)
+lr_mse = mean_squared_error(test_labels, test_predictions)
+lr_rmse = np.sqrt(lr_mse)
+```
+
+The idea behind this exercise is just that, from Part 1, we could collect interesting anchor locations (address, latitude, longitude) and create our own dataframe with different types of houses and check how much different types of houses ('Single family home', 'condo', 'townhome') would cost at our locations of interest. As always, we can write a small function to do the same.
+
+```python
+def create_fake_df(budget, beds, baths, addr, property_types):
+    geolocator = Nominatim(user_agent='addr_finder')
+    location = geolocator.geocode(addr)
+    lat = location.latitude
+    lng = location.longitude
+    zipcode = location.raw['display_name'].split()[-3].split('-')[0]
+    df_lst = []
+    columns = ['property_type', 'zipcode', 'beds', 'baths', 'sq_ft',
+       'year_built', 'lot_size', 'latitude', 'longitude', 'price']
+    for i in range(0, len(property_types)):
+        for j in beds:
+            for k in baths:
+                rand_sqft = random.randint(1000, 4000)
+                rand_lot = rand_sqft + random.randint(100, 2000)
+                rand_year = random.randint(1950, 2000)
+                df_lst.append([property_types[i], zipcode, j, k, rand_sqft, 
+                           rand_year, rand_lot, lat, lng, budget])
+    df = pd.DataFrame(data=df_lst, columns=columns)
+    return df
+```
+
+Let us use a sample address, our choice of number of bedrooms and bathrooms, and property type as a python list.
+
+```python
+my_addr = 'Monroe St, Santa Clara, CA'
+beds = [2.0, 3.0, 4.0]
+baths = [2.0, 2.5, 2.0]
+property_types = ['Single Family Residential', 'Condo/Co-op', 'Multi-Family (2-4 Unit)',
+       'Townhouse', 'Mobile/Manufactured Home', 'Multi-Family (5+ Unit)']
+```
+
+We can call the function on the above data as follows:
+```python
+my_df = create_fake_df(1000000, beds, baths, my_addr, property_types)
+```
+
+We can now perform the same linear regression to check how much different kinds (condos, townhomes, etc.) with different characteristics (different number of bedrooms, bathrooms, square foot area, etc.) cost:
+
+```python
+rand_train_set, rand_test_set = split_train_test_by_id(my_df, 0.2, 'index')
+rand_train_prepared = full_pipeline.fit_transform(rand_train_set)
+rand_test_prepared = full_pipeline.fit_transform(rand_test_set)
+
+# A specific house with a specific characteristic
+rand_predictions = lr.predict(rand_test_prepared[2:3]) 
+print(rand_predictions)
+```
+
+and we obtain: ```[1460456.41893491]```
